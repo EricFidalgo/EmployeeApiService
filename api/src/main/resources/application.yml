@@ -1,13 +1,12 @@
-spring.application.name: entry-level-java-employee
 spring:
+  application:
+    name: employees
   datasource:
-    url: jdbc:h2:mem:employeedb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
-  h2:
-    console:
-      enabled: true
+    url: jdbc:mysql://localhost:3306/employees?createDatabaseIfNotExist=true
+    username: #<-- ADD YOUR DB USERNAME
+    password: #<-- ADD YOUR DB PASSWORD
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update 
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
