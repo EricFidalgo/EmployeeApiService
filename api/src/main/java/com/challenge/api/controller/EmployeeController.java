@@ -8,13 +8,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
+import com.employee.api.dtos.CreateEmployeeRequestDto;
 import com.employee.api.dtos.EmployeeDto;
-import com.employee.api.model.Employee;
 import com.employee.api.services.EmployeeService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -28,8 +31,8 @@ public class EmployeeController {
 
     // GET request to call all of the employees from the service layer
     @GetMapping
-    public List<EmployeeDto> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
+        return ResponseEntity.ok(employeeService.getAllEmployees());
     }
     
     // GET request to call a single employee by their uuid
@@ -46,12 +49,13 @@ public class EmployeeController {
         }
     }
 
-    /**
-     * @implNote Need not be concerned with an actual persistence layer.
-     * @param requestBody hint!
-     * @return Newly created Employee
-     */
-    public Employee createEmployee(Object requestBody) {
-        throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
+    // POST creation by first checking if the employee request variables are valid and are not empty
+    // if not valid then call Global exception handler 
+    @PostMapping
+    public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody CreateEmployeeRequestDto createEmployee) {
+        EmployeeDto createdEmployee = employeeService.createEmployee(createEmployee);
+        
+        // HttpStatus.CREATED will return a 201 message saying "Created"
+        return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
     }
 }
