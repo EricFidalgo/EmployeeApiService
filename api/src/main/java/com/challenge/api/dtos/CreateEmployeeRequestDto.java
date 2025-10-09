@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
-// Dto to create the employee 
+// Dto to create the employee
 @Getter
 @Setter
 public class CreateEmployeeRequestDto {
@@ -16,11 +16,9 @@ public class CreateEmployeeRequestDto {
     @NotBlank(message = "Last name cannot be blank")
     private String lastName;
 
-    @Positive(message = "Salary must be a positive number") 
-    private Integer salary;
+    @Positive(message = "Salary must be a positive number") private Integer salary;
 
-    @Positive(message = "Age must be a positive number") 
-    private Integer age;
+    @Positive(message = "Age must be a positive number") private Integer age;
 
     @NotBlank(message = "Job title cannot be blank")
     private String jobTitle;

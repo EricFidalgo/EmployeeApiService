@@ -1,18 +1,16 @@
 package com.employee.api.services;
 
-import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-
 import com.employee.api.dtos.CreateEmployeeRequestDto;
 import com.employee.api.dtos.EmployeeDto;
 import com.employee.api.mapper.EmployeeMapper;
 import com.employee.api.model.BasicEmployee;
 import com.employee.api.repository.EmployeeRepository;
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
 // This class contains the business logic operations by separating the implementation from employee service
 @Service
@@ -39,7 +37,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
         return employees.stream().map(employeeMapper::toDto).collect(Collectors.toList());
     }
 
-    // Creates an employee by finding by id and returns the employee mapper 
+    // Creates an employee by finding by id and returns the employee mapper
     // If not found will return the empty optional
     @Override
     public Optional<EmployeeDto> getEmployeeByUuid(UUID uuid) {
@@ -47,19 +45,35 @@ public class EmployeeServiceImplementation implements EmployeeService {
         return employee.map(employeeMapper::toDto);
     }
 
-    // Creates an employee based off of the employee request dto class 
+    // Creates an employee based off of the employee request dto class
     @Override
-    public EmployeeDto createEmployee(CreateEmployeeRequestDto employeeDto)
-    {
+    public EmployeeDto createEmployee(CreateEmployeeRequestDto employeeDto) {
         var employee = employeeMapper.toEntity(employeeDto);
 
-        // Create a random uuid 
+        // Create a random uuid
         employee.setUuid(UUID.randomUUID());
 
         // Set the hire date to the current time
         employee.setContractHireDate(Instant.now());
-        // The getContractTerminationDate is not implemented because the termination date is set when the employee gets fired so this should be set to null 
+        // The getContractTerminationDate is not implemented because the termination date is set when the employee gets
+        // fired so this should be set to null
         // In the future an UPDATE request would be set and then you would be able to implement this
         return employeeMapper.toDto(employeeRepository.save(employee));
+    }
+
+
+    // Updates an employee based off the UUID and the chosen employee
+    @Override
+    public EmployeeDto updateEmployee(CreateEmployeeRequestDto createEmployee, UUID uuid) {
+        BasicEmployee employee = employeeRepository.findById(uuid).orElse(null);
+
+        if (employee == null) {
+            return null;
+        } else {
+            BasicEmployee updatedEmployee = employeeMapper.toEntity(createEmployee);
+            updatedEmployee.setUuid(uuid);
+            updatedEmployee.setContractTerminationDate(employee.getContractTerminationDate());
+            return employeeMapper.toDto(employeeRepository.save(updatedEmployee));
+        }
     }
 }

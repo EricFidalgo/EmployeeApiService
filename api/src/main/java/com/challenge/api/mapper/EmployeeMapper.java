@@ -1,16 +1,15 @@
 package com.employee.api.mapper;
 
-import org.springframework.stereotype.Component;
-
 import com.employee.api.dtos.CreateEmployeeRequestDto;
 import com.employee.api.dtos.EmployeeDto;
 import com.employee.api.model.BasicEmployee;
 import com.employee.api.model.Employee;
+import org.springframework.stereotype.Component;
 
 // Converts the Employee database entities into Employee Dtos
 @Component
 public class EmployeeMapper {
-    // This Dto is for reading in employees 
+    // This Dto is for reading in employees
     public EmployeeDto toDto(Employee employee) {
         if (employee == null) {
             return null;

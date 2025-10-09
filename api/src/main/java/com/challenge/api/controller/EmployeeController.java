@@ -1,23 +1,21 @@
 package com.employee.api.controller;
 
+import com.employee.api.dtos.CreateEmployeeRequestDto;
+import com.employee.api.dtos.EmployeeDto;
+import com.employee.api.services.EmployeeService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.employee.api.dtos.CreateEmployeeRequestDto;
-import com.employee.api.dtos.EmployeeDto;
-import com.employee.api.services.EmployeeService;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -34,7 +32,7 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
-    
+
     // GET request to call a single employee by their uuid
     @GetMapping("/{uuid}")
     public ResponseEntity<EmployeeDto> getEmployeeByUuid(@PathVariable UUID uuid) {
@@ -43,19 +41,31 @@ public class EmployeeController {
 
         if (employeeDtoOptional.isPresent()) {
             return ResponseEntity.ok(employeeDtoOptional.get());
-        } 
-        else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     // POST creation by first checking if the employee request variables are valid and are not empty
-    // if not valid then call Global exception handler 
+    // if not valid then call Global exception handler
     @PostMapping
     public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody CreateEmployeeRequestDto createEmployee) {
         EmployeeDto createdEmployee = employeeService.createEmployee(createEmployee);
-        
+
         // HttpStatus.CREATED will return a 201 message saying "Created"
         return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
+    }
+    
+    // PUT request to update a user 
+    @PutMapping("/{uuid}")
+    public ResponseEntity<EmployeeDto> updateEmployee(
+            @Valid @RequestBody CreateEmployeeRequestDto createEmployee, @PathVariable UUID uuid) {
+        EmployeeDto updatedEmployee = employeeService.updateEmployee(createEmployee, uuid);
+
+        if (updatedEmployee == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(updatedEmployee);
+        }
     }
 }

@@ -1,17 +1,17 @@
 package com.employee.api.model;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.Instant;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// This is the concrete implementation of the Employee interface which allows for loose coupling because we can implement different function methods with other classes 
-@Entity // JPA Entity 
+// This is the concrete implementation of the Employee interface which allows for loose coupling because we can
+// implement different function methods with other classes
+@Entity // JPA Entity
 @Table(name = "employee")
 @Getter
 @Setter
