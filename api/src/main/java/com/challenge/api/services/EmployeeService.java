@@ -19,4 +19,6 @@ public interface EmployeeService {
                     employeeDto); // creates the employee with variables from the mapper and the hire date and uuid
 
     EmployeeDto updateEmployee(CreateEmployeeRequestDto createEmployee, UUID uuid);
+
+    void deleteEmployee(UUID uuid);
 }

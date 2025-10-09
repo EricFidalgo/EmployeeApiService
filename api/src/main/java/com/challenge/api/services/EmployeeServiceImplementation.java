@@ -42,6 +42,12 @@ public class EmployeeServiceImplementation implements EmployeeService {
     @Override
     public Optional<EmployeeDto> getEmployeeByUuid(UUID uuid) {
         var employee = employeeRepository.findById(uuid);
+
+        // throws an exception if the user uuid does not exist
+        if (!employeeRepository.existsById(uuid)) {
+            throw new IllegalArgumentException("Employee not found with id: " + uuid);
+        }
+
         return employee.map(employeeMapper::toDto);
     }
 
@@ -61,7 +67,6 @@ public class EmployeeServiceImplementation implements EmployeeService {
         return employeeMapper.toDto(employeeRepository.save(employee));
     }
 
-
     // Updates an employee based off the UUID and the chosen employee
     @Override
     public EmployeeDto updateEmployee(CreateEmployeeRequestDto createEmployee, UUID uuid) {
@@ -75,5 +80,16 @@ public class EmployeeServiceImplementation implements EmployeeService {
             updatedEmployee.setContractTerminationDate(employee.getContractTerminationDate());
             return employeeMapper.toDto(employeeRepository.save(updatedEmployee));
         }
+    }
+
+    // Deletes the employee based off the UUID
+    @Override
+    public void deleteEmployee(UUID uuid) {
+
+      // throws an exception if the user uuid does not exist
+        if (!employeeRepository.existsById(uuid)) {
+            throw new IllegalArgumentException("Employee not found with id: " + uuid);
+        }
+        employeeRepository.deleteById(uuid);
     }
 }

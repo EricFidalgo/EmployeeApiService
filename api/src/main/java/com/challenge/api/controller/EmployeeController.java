@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,8 +56,8 @@ public class EmployeeController {
         // HttpStatus.CREATED will return a 201 message saying "Created"
         return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
     }
-    
-    // PUT request to update a user 
+
+    // PUT request to update a user
     @PutMapping("/{uuid}")
     public ResponseEntity<EmployeeDto> updateEmployee(
             @Valid @RequestBody CreateEmployeeRequestDto createEmployee, @PathVariable UUID uuid) {
@@ -67,5 +68,12 @@ public class EmployeeController {
         } else {
             return ResponseEntity.ok(updatedEmployee);
         }
+    }
+
+    // DELETE to delete a user
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable UUID uuid) {
+        employeeService.deleteEmployee(uuid);
+        return ResponseEntity.noContent().build();
     }
 }
