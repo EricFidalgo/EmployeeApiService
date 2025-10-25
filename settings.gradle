@@ -1,2 +1,3 @@
-rootProject.name = 'entry-level-java-employee'
+rootProject.name = 'employee-management-api'
+
 include 'api'

@@ -7,6 +7,6 @@ spring:
     password: #<-- ADD YOUR DB PASSWORD
   jpa:
     hibernate:
-      ddl-auto: update 
+      ddl-auto: update
     database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
