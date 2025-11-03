@@ -11,5 +11,5 @@ dependencies {
 }
 
 springBoot {
-    mainClass = 'com.employee.api.EntryLevelJavaEmployeeApplication'
+    mainClass = 'com.employee.api.EmployeeApiApplication'
 }
