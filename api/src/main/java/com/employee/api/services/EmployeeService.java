@@ -1,10 +1,11 @@
 package com.employee.api.services;
 
-import com.employee.api.dtos.CreateEmployeeRequestDto;
-import com.employee.api.dtos.EmployeeDto;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import com.employee.api.dtos.CreateEmployeeRequestDto;
+import com.employee.api.dtos.EmployeeDto;
 
 // This interface defines what the employee service implementation will have to do
 public interface EmployeeService {
