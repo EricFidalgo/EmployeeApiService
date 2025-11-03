@@ -1,16 +1,18 @@
 package com.employee.api.services;
 
-import com.employee.api.dtos.CreateEmployeeRequestDto;
-import com.employee.api.dtos.EmployeeDto;
-import com.employee.api.mapper.EmployeeMapper;
-import com.employee.api.model.BasicEmployee;
-import com.employee.api.repository.EmployeeRepository;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
+
+import com.employee.api.dtos.CreateEmployeeRequestDto;
+import com.employee.api.dtos.EmployeeDto;
+import com.employee.api.mapper.EmployeeMapper;
+import com.employee.api.model.BasicEmployee;
+import com.employee.api.repository.EmployeeRepository;
 
 // This class contains the business logic operations by separating the implementation from employee service
 @Service
@@ -42,12 +44,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     @Override
     public Optional<EmployeeDto> getEmployeeByUuid(UUID uuid) {
         var employee = employeeRepository.findById(uuid);
-
-        // throws an exception if the user uuid does not exist
-        if (!employeeRepository.existsById(uuid)) {
-            throw new IllegalArgumentException("Employee not found with id: " + uuid);
-        }
-
+        
         return employee.map(employeeMapper::toDto);
     }
 
