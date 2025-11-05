@@ -1,6 +1,6 @@
 # Employee API Service
 
-**[→ View Project Page](https://ericfidalgo.github.io/portfolio/projects/EmployeeApiService)**
+**[→ View Project Page](https://ericfidalgo.github.io/portfolio/projects/project.html?id=employee-api-service)**
 
 ## Project Description
 
